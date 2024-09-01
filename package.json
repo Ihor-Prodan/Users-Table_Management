@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -39,6 +40,7 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.11",
+    "gh-pages": "^6.1.1",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
     "sass": "^1.77.8",

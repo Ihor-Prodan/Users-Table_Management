@@ -20,7 +20,7 @@ const initialState: UserState = {
 };
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  const response = await fetch('/users.json');
+  const response = await fetch('/Users-Table_Management/users.json');
 
   return (await response.json()) as User[];
 });
