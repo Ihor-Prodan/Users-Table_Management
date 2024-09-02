@@ -1,20 +1,19 @@
 import React, { useEffect, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../Hooks/ReduxHooks';
-import Header from './Header';
-import Pagination from './Pangination';
-import { setPage } from '../Redux/Slices/panginationSlice';
-import useFilteredUsers from '../Hooks/FilteredUsers';
+import useFilteredUsers from '../hooks/filterUsers';
 import { motion, AnimatePresence } from 'framer-motion';
-import useSearchParams from '../Hooks/SearchParamsHook';
+import Header from './Header';
+import { Pagination } from './Pangination';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import { setPage } from '../redux/slices/panginationSlice';
+import { isEqual } from 'lodash';
+import Loader from './Loader';
 
 export const UserTable: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { users, filters } = useAppSelector((state) => state.user);
+  const { users, filters, loading } = useAppSelector((state) => state.user);
   const { usersToShow, currentPage } = useAppSelector(
     (state) => state.pangination
   );
-
-  useSearchParams(currentPage);
 
   const prevFiltersRef = useRef(filters);
   const filteredUsers = useFilteredUsers(users, filters);
@@ -24,8 +23,9 @@ export const UserTable: React.FC = () => {
   const usersToDisplay = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   useEffect(() => {
-    if (JSON.stringify(filters) !== JSON.stringify(prevFiltersRef.current)) {
+    if (!isEqual(filters, prevFiltersRef.current)) {
       dispatch(setPage(1));
+
       prevFiltersRef.current = filters;
     }
   }, [filters, dispatch]);
@@ -34,7 +34,7 @@ export const UserTable: React.FC = () => {
     <section className="bg-[#1D1E42] p-4 rounded-lg shadow-lg">
       <Header />
       <div className="bg-[#1D1E42] p-4 rounded-lg">
-        <div className="bg-[#1D1E42] border border-gray-200 rounded-lg relative">
+        <div className="bg-[#1D1E42] border border-gray-200 rounded-lg relative h-[491px] overflow-y-scroll">
           <div className="border-b bg-[#26264F] sticky top-0 z-10">
             <div className="grid grid-cols-4 gap-6 py-3 px-4 text-gray-700 font-semibold text-sm">
               {['Name', 'Username', 'Email', 'Phone'].map((header) => (
@@ -44,40 +44,38 @@ export const UserTable: React.FC = () => {
               ))}
             </div>
           </div>
-          <AnimatePresence>
-            {usersToDisplay.length > 0 ? (
-              <motion.div
-                className="overflow-y-auto"
-                style={{ maxHeight: `${usersToShow * 44}px` }}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                key={usersToDisplay.length}
-              >
-                {usersToDisplay.map((user) => (
-                  <motion.div
-                    layout
-                    key={user.id}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 30 }}
-                    transition={{ duration: 0.4 }}
-                    className="grid grid-cols-4 gap-6 py-3 px-4 text-gray-100 hover:bg-gray-50 hover:text-gray-600 transition-colors duration-300"
-                  >
-                    <div className="text-sm font-medium">{user.name}</div>
-                    <div className="text-sm">{user.username}</div>
-                    <div className="text-sm">{user.email}</div>
-                    <div className="text-sm">{user.phone}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              <div className="py-4 text-center text-white">
-                No users found for the selected filters.
-              </div>
-            )}
-          </AnimatePresence>
+          {loading ? (
+            <div className="flex justify-center items-center h-screen w-full pb-[400px]">
+              <Loader />
+            </div>
+          ) : (
+            <AnimatePresence>
+              {usersToDisplay.length > 0 ? (
+                <div className="overflow-y-hidden">
+                  {usersToDisplay.map((user) => (
+                    <motion.div
+                      layout
+                      key={user.id}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 30 }}
+                      transition={{ duration: 0.4 }}
+                      className="grid grid-cols-4 gap-6 py-3 px-4 text-gray-100 hover:bg-gray-50 hover:text-gray-600 transition-colors duration-300"
+                    >
+                      <div className="text-sm font-medium">{user.name}</div>
+                      <div className="text-sm">{user.username}</div>
+                      <div className="text-sm">{user.email}</div>
+                      <div className="text-sm">{user.phone}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-4 text-center text-white">
+                  No users found for the selected filters.
+                </div>
+              )}
+            </AnimatePresence>
+          )}
         </div>
       </div>
       <Pagination
@@ -89,4 +87,4 @@ export const UserTable: React.FC = () => {
   );
 };
 
-export default React.memo(UserTable);
+export default UserTable;

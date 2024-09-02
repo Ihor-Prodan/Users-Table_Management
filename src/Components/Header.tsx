@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchFilters from './SearchFilters';
-import { useAppDispatch, useAppSelector } from '../Hooks/ReduxHooks';
-import { setPage, setUsersToShow } from '../Redux/Slices/panginationSlice';
+import { setPage, setUsersToShow } from '../redux/slices/panginationSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();

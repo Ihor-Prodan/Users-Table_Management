@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { Filters } from '../../Types/Filters';
-import { User } from '../../Types/User';
+import { Filters } from '../../types/filters';
+import { User } from '../../types/user';
 
 interface UserState {
   users: User[];

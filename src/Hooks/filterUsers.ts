@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { User } from '../Types/User';
-import { Filters } from '../Types/Filters';
+import { User } from '../types/user';
+import { Filters } from '../types/filters';
 
 const useFilteredUsers = (users: User[], filters: Filters): User[] => {
   const filteredUsers = useMemo(() => {

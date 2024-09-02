@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../Hooks/ReduxHooks';
-import { setPage } from '../Redux/Slices/panginationSlice';
-import { User } from '../Types/User';
+import { User } from '../types/user';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import { setPage } from '../redux/slices/panginationSlice';
 
 interface PaginationProps {
   totalUsers: number;

@@ -11,8 +11,8 @@ import {
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
 import storage from 'redux-persist/lib/storage';
-import userSlice from './Slices/userSlice';
-import panginationSlice from './Slices/panginationSlice';
+import userSlice from './slices/userSlice';
+import panginationSlice from './slices/panginationSlice';
 
 const persistConfig = {
   key: 'root',

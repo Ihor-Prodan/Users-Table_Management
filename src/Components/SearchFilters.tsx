@@ -1,6 +1,6 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from '../Hooks/ReduxHooks';
-import { setFilters } from '../Redux/Slices/userSlice';
+import { setFilters } from '../redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 
 export const SearchFilters: React.FC = () => {
   const dispatch = useAppDispatch();

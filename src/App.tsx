@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import UserTable from './Components/UserTable';
-import { useAppDispatch } from './Hooks/ReduxHooks';
-import { fetchUsers } from './Redux/Slices/userSlice';
+import UserTable from './components/UserTable';
+import { useAppDispatch } from './hooks/reduxHooks';
+import { fetchUsers } from './redux/slices/userSlice';
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
