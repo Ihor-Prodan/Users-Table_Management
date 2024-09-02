@@ -15,7 +15,8 @@ export const Pagination: React.FC<PaginationProps> = ({
   usersToDisplay,
 }) => {
   const dispatch = useAppDispatch();
-  const currentPage = useAppSelector((state) => state.pagination.currentPage);
+  const currentPage = useAppSelector((state) => state.pangination.currentPage);
+  const allUsers = useAppSelector((state) => state.pangination.usersToShow);
 
   const totalPages = Math.ceil(totalUsers / usersPerPage);
 
@@ -48,29 +49,37 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center py-4">
-      {currentPage !== 1 && (
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-800 text-white rounded-lg mr-2 hover:bg-gray-50 hover:text-gray-600 active:bg-gray-300 transition-colors duration-400"
-        >
-          Previous
-        </button>
-      )}
+    <>
+      {usersToDisplay.length > 0 && allUsers !== Number.MAX_SAFE_INTEGER && (
+        <div className="flex justify-center py-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-lg mr-2 transition-colors duration-400 ${
+              currentPage === 1
+                ? 'bg-gray-800 text-white opacity-50 cursor-not-allowed'
+                : 'bg-gray-800 text-white hover:bg-gray-50 hover:text-gray-600 active:bg-gray-300'
+            }`}
+          >
+            Previous
+          </button>
 
-      {renderPageNumbers()}
-      {usersToDisplay.length === 0 ||
-        (currentPage !== totalPages && (
+          {renderPageNumbers()}
+
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-gray-800 text-white rounded-lg ml-2 hover:bg-gray-50 hover:text-gray-600 active:bg-gray-300 transition-colors duration-400"
+            className={`px-4 py-2 rounded-lg ml-2 transition-colors duration-400 ${
+              currentPage === totalPages
+                ? 'bg-gray-800 text-white opacity-50 cursor-not-allowed'
+                : 'bg-gray-800 text-white hover:bg-gray-50 hover:text-gray-600 active:bg-gray-300'
+            }`}
           >
             Next
           </button>
-        ))}
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

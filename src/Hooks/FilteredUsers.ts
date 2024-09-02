@@ -4,6 +4,10 @@ import { Filters } from '../Types/Filters';
 
 const useFilteredUsers = (users: User[], filters: Filters): User[] => {
   const filteredUsers = useMemo(() => {
+    if (!Array.isArray(users) || !filters) {
+      return [];
+    }
+
     return users.filter((user) =>
       Object.keys(filters).every((key) =>
         user[key as keyof User]

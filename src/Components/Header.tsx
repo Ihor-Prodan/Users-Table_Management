@@ -5,7 +5,7 @@ import { setPage, setUsersToShow } from '../Redux/Slices/panginationSlice';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { usersToShow } = useAppSelector((state) => state.pagination);
+  const { usersToShow } = useAppSelector((state) => state.pangination);
 
   const showPeopleOptions = ['10', '15', '30', 'All'];
 

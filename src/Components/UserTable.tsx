@@ -1,18 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../Hooks/ReduxHooks';
 import Header from './Header';
 import Pagination from './Pangination';
 import { setPage } from '../Redux/Slices/panginationSlice';
 import useFilteredUsers from '../Hooks/FilteredUsers';
 import { motion, AnimatePresence } from 'framer-motion';
+import useSearchParams from '../Hooks/SearchParamsHook';
 
 export const UserTable: React.FC = () => {
   const dispatch = useAppDispatch();
   const { users, filters } = useAppSelector((state) => state.user);
   const { usersToShow, currentPage } = useAppSelector(
-    (state) => state.pagination
+    (state) => state.pangination
   );
 
+  useSearchParams(currentPage);
+
+  const prevFiltersRef = useRef(filters);
   const filteredUsers = useFilteredUsers(users, filters);
 
   const indexOfLastUser = currentPage * usersToShow;
@@ -20,13 +24,16 @@ export const UserTable: React.FC = () => {
   const usersToDisplay = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   useEffect(() => {
-    dispatch(setPage(1));
+    if (JSON.stringify(filters) !== JSON.stringify(prevFiltersRef.current)) {
+      dispatch(setPage(1));
+      prevFiltersRef.current = filters;
+    }
   }, [filters, dispatch]);
 
   return (
     <section className="bg-[#1D1E42] p-4 rounded-lg shadow-lg">
       <Header />
-      <div className="overflow-x-auto bg-[#1D1E42] pi-4 rounded-lg shadow-lg">
+      <div className="bg-[#1D1E42] p-4 rounded-lg">
         <div className="bg-[#1D1E42] border border-gray-200 rounded-lg relative">
           <div className="border-b bg-[#26264F] sticky top-0 z-10">
             <div className="grid grid-cols-4 gap-6 py-3 px-4 text-gray-700 font-semibold text-sm">

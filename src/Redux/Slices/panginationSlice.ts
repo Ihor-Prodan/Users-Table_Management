@@ -13,7 +13,7 @@ const initialState: PaginationState = {
 };
 
 const paginationSlice = createSlice({
-  name: 'pagination',
+  name: 'pangination',
   initialState,
   reducers: {
     setPage(state, action: PayloadAction<number>) {

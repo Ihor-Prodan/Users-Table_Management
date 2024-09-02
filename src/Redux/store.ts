@@ -17,12 +17,12 @@ import panginationSlice from './Slices/panginationSlice';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['user', 'pagination'],
+  whitelist: ['user', 'pangination'],
 };
 
 const rootReducer = combineReducers({
   user: userSlice,
-  pagination: panginationSlice,
+  pangination: panginationSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
